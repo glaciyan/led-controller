@@ -22,32 +22,25 @@ extern "C" void app_main()
 {
     LEDDriver ledDriver{};
 
-    led::Pixel red{255, 0, 0};
-    auto redData = red.asGRB8Bit();
-    ESP_ERROR_CHECK(ledDriver.transmitData(&redData, led::Pixel::size));
-    ESP_ERROR_CHECK(ledDriver.joinAll());
+    ws2812::Pixel red{255, 0, 0};
+    ESP_ERROR_CHECK(ledDriver.transmitData(&red, sizeof(red)));
     vTaskDelay(pdMS_TO_TICKS(500));
 
-    led::Pixel green{0, 255, 0};
-    auto greenData = green.asGRB8Bit();
-    ESP_ERROR_CHECK(ledDriver.transmitData(&greenData, led::Pixel::size));
-    ESP_ERROR_CHECK(ledDriver.joinAll());
+    ws2812::Pixel green{0, 255, 0};
+    ESP_ERROR_CHECK(ledDriver.transmitData(&green, sizeof(green)));
     vTaskDelay(pdMS_TO_TICKS(500));
 
-    led::Pixel blue{0, 0, 255};
-    auto blueData = blue.asGRB8Bit();
-    ESP_ERROR_CHECK(ledDriver.transmitData(&blueData, led::Pixel::size));
-    ESP_ERROR_CHECK(ledDriver.joinAll());
+    ws2812::Pixel blue{0, 0, 255};
+    ESP_ERROR_CHECK(ledDriver.transmitData(&blue, sizeof(blue)));
     vTaskDelay(pdMS_TO_TICKS(500));
 
     while (true)
     {
         TickType_t time = xTaskGetTickCount();
         double hue = (std::sin(time / 200.0) * 180) + 180;
-        led::Pixel pixel = led::Pixel::pixelFromHsv(hue, 100, 100);
+        ws2812::Pixel pixel = ws2812::Pixel::pixelFromHsv(hue, 100, 100);
 
-        auto data = pixel.asGRB8Bit();
-        ESP_ERROR_CHECK(ledDriver.transmitData(&data, sizeof(uint8_t) * data.size()));
+        ESP_ERROR_CHECK(ledDriver.transmitData(&pixel, sizeof(pixel)));
         ESP_ERROR_CHECK(ledDriver.joinAll());
         vTaskDelay(pdMS_TO_TICKS(EXAMPLE_CHASE_SPEED_MS));
     }
