@@ -16,7 +16,7 @@
 
 #define EXAMPLE_CHASE_SPEED_MS (10)
 
-typedef led::Driver<RMT_LED_STRIP_GPIO_NUM> LEDDriver;
+typedef ws2812::Driver<RMT_LED_STRIP_GPIO_NUM> LEDDriver;
 
 extern "C" void app_main()
 {
