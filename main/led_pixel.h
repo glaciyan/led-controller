@@ -13,6 +13,7 @@ namespace ws2812
         const uint8_t r;
         const uint8_t b;
 
+        constexpr Pixel() : g{0}, r{0}, b{0} {}
         constexpr Pixel(uint8_t r, uint8_t g, uint8_t b) : g{g}, r{r}, b{b} {}
 
         static constexpr Pixel pixelFromHsv(const uint32_t h, const uint32_t s, const uint32_t v)

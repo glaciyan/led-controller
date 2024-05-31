@@ -4,6 +4,7 @@
 #include "esp_log.h"
 #include "esp_err.h"
 #include "driver/rmt_tx.h"
+#include "driver/gpio.h"
 
 #include "led_strip_encoder.h"
 
@@ -13,7 +14,7 @@ namespace ws2812
 
     static const uint32_t RMT_LED_STRIP_RESOLUTION_HZ = 10'000'000;
 
-    template<gpio_num_t gpioPin>
+    template <gpio_num_t gpioPin>
     struct Driver
     {
         // Create RMT TX channel
@@ -55,6 +56,12 @@ namespace ws2812
         constexpr esp_err_t joinAll() const
         {
             return rmt_tx_wait_all_done(led_chan, portMAX_DELAY);
+        }
+
+        constexpr esp_err_t enableSwitch(gpio_num_t pin)
+        {
+            ESP_ERROR_CHECK(gpio_set_direction(pin, GPIO_MODE_OUTPUT));
+            return gpio_set_level(pin, 1);
         }
     };
 }
