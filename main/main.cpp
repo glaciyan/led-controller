@@ -38,7 +38,7 @@ extern "C" void app_main()
     {
         TickType_t time = xTaskGetTickCount();
         double hue = (std::sin(time / 200.0) * 180) + 180;
-        ws2812::Pixel pixel = ws2812::Pixel::pixelFromHsv(hue, 100, 100);
+        ws2812::Pixel pixel = ws2812::Pixel::pixelFromHsv(hue, 100, 30);
 
         ESP_ERROR_CHECK(ledDriver.transmitData(&pixel, sizeof(pixel)));
         ESP_ERROR_CHECK(ledDriver.joinAll());
