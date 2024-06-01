@@ -48,14 +48,14 @@ namespace ws2812
             tx_config.loop_count = 0;
         }
 
-        constexpr esp_err_t transmitData(const void *data, const size_t dataSize) const
+        constexpr void transmitData(const void *data, const size_t dataSize) const
         {
-            return rmt_transmit(led_chan, led_encoder, data, dataSize, &tx_config);
+            ESP_ERROR_CHECK(rmt_transmit(led_chan, led_encoder, data, dataSize, &tx_config));
         }
 
-        constexpr esp_err_t joinAll() const
+        constexpr void joinAll() const
         {
-            return rmt_tx_wait_all_done(led_chan, portMAX_DELAY);
+            ESP_ERROR_CHECK(rmt_tx_wait_all_done(led_chan, portMAX_DELAY));
         }
     };
 }
