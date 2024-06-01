@@ -26,19 +26,6 @@ extern "C" void app_main()
 {
     LEDDriver ledDriver{};
 
-    // ESP_ERROR_CHECK(ledDriver.enableSwitch(LED_SWITCH_GPIO_NUM));
-
-    // gpio_config_t io_conf{};
-    // io_conf.intr_type = GPIO_INTR_DISABLE;
-    // io_conf.mode = GPIO_MODE_OUTPUT;
-    // io_conf.pin_bit_mask = (1ULL << LED_SWITCH_GPIO_NUM);
-    // io_conf.pull_down_en = static_cast<gpio_pulldown_t>(0);
-    // io_conf.pull_up_en = static_cast<gpio_pullup_t>(0);
-    // gpio_config(&io_conf);
-
-    // // ESP_ERROR_CHECK(gpio_set_direction(GPIO_NUM_7, GPIO_MODE_OUTPUT));
-    // ESP_ERROR_CHECK(gpio_set_level(LED_SWITCH_GPIO_NUM, 1));
-
     ws2812::Pixel red{255, 0, 0};
     ESP_ERROR_CHECK(ledDriver.transmitData(&red, sizeof(red)));
     vTaskDelay(pdMS_TO_TICKS(500));
