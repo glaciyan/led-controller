@@ -57,11 +57,5 @@ namespace ws2812
         {
             return rmt_tx_wait_all_done(led_chan, portMAX_DELAY);
         }
-
-        constexpr esp_err_t enableSwitch(gpio_num_t pin)
-        {
-            ESP_ERROR_CHECK(gpio_set_direction(pin, GPIO_MODE_OUTPUT));
-            return gpio_set_level(pin, 1);
-        }
     };
 }
