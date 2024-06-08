@@ -23,11 +23,12 @@ namespace bluetooth
     constexpr int32_t EXT_ADV_DURATION = 0;
     constexpr int32_t EXT_ADV_MAX_EVENTS = 0;
 
+    // See ext_adv_raw_data_generator.py
     constexpr std::array<uint8_t, 28> ext_adv_raw_data = {
-        0x02, 0x01, 0x06,                                                                           //
-        0x02, 0x0a, 0xeb,                                                                           //
-        0x03, 0x03, 0xab, 0xcd,                                                                     //
-        0x11, 0X09, 'E', 'S', 'P', '_', 'B', 'L', 'E', '5', '0', '_', 'S', 'E', 'R', 'V', 'E', 'R', //
+        0x02, 0x01, 0x06,                                                                                          //
+        0x02, 0x0A, 0xEB,                                                                                          //
+        0x03, 0x03, 0xAB, 0xCD,                                                                                    //
+        0x11, 0x09, 0x45, 0x53, 0x50, 0x5F, 0x42, 0x4C, 0x45, 0x35, 0x30, 0x5F, 0x53, 0x45, 0x52, 0x56, 0x45, 0x52 //
     };
 
     constexpr esp_ble_gap_ext_adv_t ext_adv_enable_params{EXT_ADV_HANDLE, EXT_ADV_DURATION, EXT_ADV_MAX_EVENTS};
