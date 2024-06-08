@@ -5,4 +5,7 @@ cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(led-controller)
 
-idf_build_set_property(COMPILE_OPTIONS -Werror -Wall -Wextra APPEND)
+idf_build_set_property(COMPILE_OPTIONS -Werror APPEND)
+idf_build_set_property(COMPILE_OPTIONS -Wall APPEND)
+idf_build_set_property(COMPILE_OPTIONS -Wextra APPEND)
+idf_build_set_property(COMPILE_OPTIONS -Wno-missing-field-initializers APPEND)
