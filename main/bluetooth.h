@@ -24,10 +24,10 @@ namespace bluetooth
     void start_advertising();
 
     // See ext_adv_raw_data_generator.py
-    constexpr std::array<uint8_t, 22> ext_adv_raw_data = {
-        0x02, 0x01, 0x06,                                                                        //
-        0x03, 0x19, 0x92, 0x05,                                                                  //
-        0x0E, 0x09, 0x4D, 0x59, 0x5F, 0x42, 0x4C, 0x45, 0x5F, 0x44, 0x45, 0x56, 0x49, 0x43, 0x45 //
+    constexpr std::array<uint8_t, 27> ext_adv_raw_data = {
+        0x02, 0x01, 0x06,                                                                                                      //
+        0x03, 0x19, 0x92, 0x05,                                                                                                //
+        0x13, 0x09, 0x4C, 0x45, 0x44, 0x20, 0x53, 0x68, 0x6F, 0x77, 0x63, 0x61, 0x73, 0x65, 0x20, 0x4C, 0x69, 0x67, 0x68, 0x74 //
     };
 
     uint8_t own_addr_type = BLE_OWN_ADDR_RANDOM;
@@ -66,9 +66,16 @@ namespace bluetooth
             if (event->connect.status != 0)
             {
                 start_advertising();
+                return 0;
             }
 
-            return 0;
+            // rc = ble_gap_security_initiate(event->connect.conn_handle);
+            // if (rc != 0 && rc != BLE_HS_EALREADY) {
+            //     MODLOG_DFLT(ERROR, "Failed to initiate security on connect %d", rc);
+            // }
+
+
+            return 1;
 
         case BLE_GAP_EVENT_DISCONNECT:
             MODLOG_DFLT(INFO, "disconnect; reason=%d", event->disconnect.reason);
@@ -88,6 +95,13 @@ namespace bluetooth
             /* Encryption has been enabled or disabled for this connection. */
             MODLOG_DFLT(INFO, "encryption change event; status=%d",
                         event->enc_change.status);
+
+            rc = ble_gap_conn_find(event->enc_change.conn_handle, &desc);
+            assert(rc == 0);
+
+            MODLOG_DFLT(INFO, "Security State - Authenticated: %d, Authorized: %d, Bonded: %d, Encrypted: %d, Key Size: %d", desc.sec_state.authenticated, desc.sec_state.authorize, desc.sec_state.bonded, desc.sec_state.encrypted, desc.sec_state.key_size);
+            MODLOG_DFLT(INFO, "Is connect procedure is currently in progress? %d", ble_gap_conn_active());
+
             return 0;
 
         case BLE_GAP_EVENT_NOTIFY_TX:
@@ -236,7 +250,30 @@ namespace bluetooth
         ble_hs_cfg.reset_cb = bleprph_on_reset;
         ble_hs_cfg.sync_cb = bleprph_on_sync;
 
-        int rc = init_gatt();
+        // Long Term Key - used in link encryption
+        ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_ENC;
+        ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_ENC;
+
+        // Identity Resolving Key - used in the Bluetooth privacy feature
+        ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_ID;
+        ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_ID;
+
+        // Connection Signature Resolving Key - used in signing data sent over an unencrypted link
+        ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
+        ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
+
+        // Tell the other device we want mitm and LE Secure Connection
+        ble_hs_cfg.sm_mitm = 1;
+        ble_hs_cfg.sm_sc = 1;
+
+
+        int rc = gatt_svr_init();
+        assert(rc == 0);
+
+        rc = ble_svc_gap_device_name_set("LED Showcase Light");
+        assert(rc == 0);
+
+        rc = ble_svc_gap_device_appearance_set(0x0592);
         assert(rc == 0);
 
         ble_store_config_init();

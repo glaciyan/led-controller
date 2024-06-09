@@ -6,6 +6,8 @@
 
 #include "host/ble_gatt.h"
 #include "host/ble_hs_mbuf.h"
+#include "services/gap/ble_svc_gap.h"
+#include "services/gatt/ble_svc_gatt.h"
 
 namespace bluetooth
 {
@@ -106,7 +108,7 @@ namespace bluetooth
                 .uuid = &gatt_svr_chr_sec_test_rand_uuid.u,
                 .access_cb = gatt_svr_chr_access_sec_test,
                 .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_READ_ENC,
-                },
+            },
 
             ble_gatt_chr_def{
                 .uuid = &gatt_svr_chr_sec_test_static_uuid.u,
@@ -125,15 +127,21 @@ namespace bluetooth
         0 // terminate
     };
 
-    constexpr int init_gatt() {
+    constexpr int gatt_svr_init()
+    {
+        ble_svc_gap_init();
+        ble_svc_gatt_init();
+
         int rc = ble_gatts_count_cfg(gatt_services.data());
-        if (rc != 0) {
+        if (rc != 0)
+        {
             MODLOG_DFLT(INFO, "Failed to count services %d", rc);
             return rc;
         }
 
         rc = ble_gatts_add_svcs(gatt_services.data());
-        if (rc != 0) {
+        if (rc != 0)
+        {
             MODLOG_DFLT(INFO, "Failed to add services %d", rc);
             return rc;
         }
