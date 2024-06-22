@@ -19,7 +19,7 @@ namespace ws2812
         static constexpr Pixel pixelFromHsv(const uint32_t h, const uint32_t s, const uint32_t v)
         {
             std::array<uint8_t, 3> colors{};
-            led_strip_hsv2rgb(h, s, v, &colors[0], &colors[1], &colors[2]);
+            util::led_strip_hsv2rgb(h, s, v, &colors[0], &colors[1], &colors[2]);
             return Pixel{colors[0], colors[1], colors[2]};
         }
     };

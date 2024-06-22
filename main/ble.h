@@ -10,6 +10,7 @@
 #include "services/gap/ble_svc_gap.h"
 #include "bleprph.h"
 #include "esp_bt.h"
+#include "ble_gatt_svr.h"
 
 constexpr std::array<uint8_t, 27> ext_adv_raw_data = {
     0x02, 0x01, 0x06, //
@@ -407,7 +408,7 @@ constexpr void init_bluetooth(void)
     ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
     ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
 
-    rc = gatt_svr_init();
+    rc = ble::gatt_svr_init();
     assert(rc == 0);
 
     /* Set the default device name. */

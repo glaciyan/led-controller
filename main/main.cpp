@@ -10,7 +10,6 @@
 #include "led_driver.h"
 #include "led_pixel.h"
 
-
 const char *TAG = "main_user";
 
 const gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_20;
