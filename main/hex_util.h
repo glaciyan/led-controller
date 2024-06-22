@@ -15,6 +15,4 @@ namespace util
     constexpr uint8_t hexPairToByte(char high, char low) {
         return (hexCharToInt(high) << 4) | hexCharToInt(low);
     }
-
-    
 }
