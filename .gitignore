@@ -1,5 +1,6 @@
 build
 .vscode/settings.json
+.vscode
 espidf.spdx
 managed_components
 sdkconfig

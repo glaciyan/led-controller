@@ -6,14 +6,17 @@
 #include <thread>
 
 #include "nvs_init.h"
-#include "bluetooth.h"
 #include "led_driver.h"
 #include "led_pixel.h"
 
-static const char *TAG = "main_user";
 
-static const gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_48;
-static const int32_t PIXEL_COUNT = 1;
+const char *TAG = "main_user";
+
+const gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_20;
+const int32_t PIXEL_COUNT = 1;
+
+#define LED_CONTROLLER_LED_PWR 1
+const gpio_num_t LED_CONTROLLER_LED_PWR_PIN = GPIO_NUM_19;
 
 typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 
@@ -23,7 +26,19 @@ extern "C" void app_main()
     LEDDriver ledDriver{};
 
     nvs::init_nvs();
-    bluetooth::init_ble();
+
+#if LED_CONTROLLER_LED_PWR
+    ESP_LOGI(TAG, "Configuring GPIO Pin");
+    gpio_config_t io_conf{};
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.pin_bit_mask = (1ULL << LED_CONTROLLER_LED_PWR_PIN);
+    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+    ESP_ERROR_CHECK(gpio_config(&io_conf));
+    ESP_LOGI(TAG, "Setting GPIO to high");
+    ESP_ERROR_CHECK(gpio_set_level(LED_CONTROLLER_LED_PWR_PIN, 1));
+#endif
 
     ESP_LOGI(TAG, "Displaying test pixel");
     ws2812::Pixel red{255, 0, 0};
