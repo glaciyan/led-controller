@@ -26,7 +26,7 @@ extern "C" void app_main()
     LEDDriver ledDriver{};
 
     nvs::init_nvs();
-    init_bluetooth();
+    ble::init_bluetooth();
 
 #if LED_CONTROLLER_LED_PWR
     ESP_LOGI(TAG, "Configuring GPIO Pin");
@@ -52,6 +52,10 @@ extern "C" void app_main()
 
     ws2812::Pixel blue{0, 0, 255};
     ledDriver.transmitData(&blue, sizeof(blue));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+    ws2812::Pixel white{255, 255, 255};
+    ledDriver.transmitData(&white, sizeof(white));
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
     while (true)
