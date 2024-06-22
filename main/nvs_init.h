@@ -20,7 +20,5 @@ namespace nvs
             err = nvs_flash_init();
         }
         ESP_ERROR_CHECK(err);
-
-        ESP_LOGI(TAG, "");
     }
 }

@@ -19,11 +19,11 @@ typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 
 extern "C" void app_main()
 {
-    nvs::init_nvs();
-    bluetooth::init_ble();
-
     ESP_LOGI(TAG, "Initializing LED Driver");
     LEDDriver ledDriver{};
+
+    nvs::init_nvs();
+    bluetooth::init_ble();
 
     ESP_LOGI(TAG, "Displaying test pixel");
     ws2812::Pixel red{255, 0, 0};
