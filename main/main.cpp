@@ -6,6 +6,7 @@
 #include <thread>
 
 #include "nvs_init.h"
+#include "ble.h"
 #include "led_driver.h"
 #include "led_pixel.h"
 
@@ -26,6 +27,7 @@ extern "C" void app_main()
     LEDDriver ledDriver{};
 
     nvs::init_nvs();
+    init_bluetooth();
 
 #if LED_CONTROLLER_LED_PWR
     ESP_LOGI(TAG, "Configuring GPIO Pin");
