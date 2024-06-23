@@ -12,11 +12,11 @@
 
 const char *TAG = "main_user";
 
-const gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_20;
-const int32_t PIXEL_COUNT = 1;
+constexpr gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_20;
+constexpr int32_t PIXEL_COUNT = 1;
 
 #define LED_CONTROLLER_LED_PWR 1
-const gpio_num_t LED_CONTROLLER_LED_PWR_PIN = GPIO_NUM_19;
+constexpr gpio_num_t LED_CONTROLLER_LED_PWR_PIN = GPIO_NUM_19;
 
 typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 

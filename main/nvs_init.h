@@ -6,7 +6,7 @@
 
 namespace nvs
 {
-    static const char *TAG = "nvs_init";
+    const char *TAG = "nvs_init";
 
     constexpr void init_nvs()
     {

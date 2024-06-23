@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
+#include "ble_values.h"
 
-namespace ble
-{
-    const std::string DEVICE_NAME = "ShowShowLight";
-}
+#define DEVICE_NAME "ShowShow"
+constexpr std::array Appearance = ble::flags::CabinetLight;
