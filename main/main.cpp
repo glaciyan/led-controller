@@ -2,16 +2,18 @@
 #include "freertos/task.h"
 
 #include <vector>
+#include <array>
 #include <cmath>
 #include <thread>
 
 #include "nvs_init.h"
-#include "ble.h"
-#include "led_driver.h"
-#include "led_pixel.h"
+#include "ble/ble.h"
+#include "led/led_driver.h"
+#include "led/led_pixel.h"
 
 const char *TAG = "main_user";
 
+// LED
 constexpr gpio_num_t RGB_LED_GPIO_NUM = GPIO_NUM_20;
 constexpr int32_t PIXEL_COUNT = 1;
 
@@ -20,6 +22,7 @@ constexpr gpio_num_t LED_CONTROLLER_LED_PWR_PIN = GPIO_NUM_19;
 
 typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 
+// Main
 extern "C" void app_main()
 {
     ESP_LOGI(TAG, "Initializing LED Driver");

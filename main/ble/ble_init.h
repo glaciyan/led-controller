@@ -21,22 +21,6 @@ namespace ble
     const char *tag = "NimBLE_BLE_PRPH";
     uint8_t own_addr_type = BLE_OWN_ADDR_RPA_RANDOM_DEFAULT;
 
-    ble_uuid128_t my_service_uuid = UUID128("88feb8853fa6c610010abf2eee3b7de3");
-
-    ble_uuid128_t my_service_value_uuid = UUID128("945683fd41b67f3c69d929fdc6dcef52");
-
-    constexpr ble_gatt_svc_def gatt_services[] = SERVICE_LIST(
-        SERVICE(
-            UUID(my_service_uuid),
-            CHARACTERISTIC(
-                UUID(my_service_value_uuid),
-                my_service::gatt_svc_access,
-                perm::EREAD | perm::EWRITE,
-                &my_service::gatt_svr_chr_val_handle
-            )
-        )
-    );
-
     void bleprph_on_reset(int reason)
     {
         MODLOG_DFLT(ERROR, "Resetting state; reason=%d\n", reason);
@@ -118,7 +102,7 @@ namespace ble
         nimble_port_freertos_deinit();
     }
 
-    void init_bluetooth(void)
+    void init_bluetooth()
     {
         int rc;
 
@@ -153,7 +137,7 @@ namespace ble
         ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
         ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
 
-        rc = ble::gatt_svr_init(gatt_services);
+        rc = ble::gatt_svr_init();
         assert(rc == 0);
 
         /* Set the default device name. */

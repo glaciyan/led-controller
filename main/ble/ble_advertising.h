@@ -10,6 +10,12 @@ namespace ble
         device_name(DEVICE_NAME)
     );
 
+    namespace data
+    {
+        uint8_t *ext_adv_raw_data = nullptr;
+        std::size_t ext_adv_raw_data_size;
+    }
+
     // Forward declaration
     int bleprph_gap_event(struct ble_gap_event *event, void *arg);
 

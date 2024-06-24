@@ -89,34 +89,4 @@ namespace my_service
         assert(0);
         return BLE_ATT_ERR_UNLIKELY;
     }
-
-    void gatt_svr_register_cb(ble_gatt_register_ctxt *ctxt, void *arg)
-    {
-        char buf[BLE_UUID_STR_LEN];
-
-        switch (ctxt->op)
-        {
-        case BLE_GATT_REGISTER_OP_SVC:
-            MODLOG_DFLT(DEBUG, "registered service %s with handle=%d\n",
-                        ble_uuid_to_str(ctxt->svc.svc_def->uuid, buf),
-                        ctxt->svc.handle);
-            break;
-
-        case BLE_GATT_REGISTER_OP_CHR:
-            MODLOG_DFLT(DEBUG, "registering characteristic %s with def_handle=%d val_handle=%d\n",
-                        ble_uuid_to_str(ctxt->chr.chr_def->uuid, buf),
-                        ctxt->chr.def_handle, ctxt->chr.val_handle);
-            break;
-
-        case BLE_GATT_REGISTER_OP_DSC:
-            MODLOG_DFLT(DEBUG, "registering descriptor %s with handle=%d\n",
-                        ble_uuid_to_str(ctxt->dsc.dsc_def->uuid, buf),
-                        ctxt->dsc.handle);
-            break;
-
-        default:
-            assert(0);
-            break;
-        }
-    }
 }
