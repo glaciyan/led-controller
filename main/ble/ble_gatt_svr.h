@@ -30,7 +30,6 @@
 
 #include "ble_gatt_util.h"
 #include "ble_values.h"
-#include "ble_my_service.h"
 
 extern "C" void ble_ans_init();
 

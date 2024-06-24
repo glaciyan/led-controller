@@ -27,8 +27,6 @@ typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 uint16_t color_characteristic_handle;
 int color_characteristic_access(uint16_t conn_handle, uint16_t attr_handle, ble_gatt_access_ctxt *ctxt, void *arg)
 {
-    int rc;
-
     switch (ctxt->op)
     {
     case BLE_GATT_ACCESS_OP_READ_CHR:
