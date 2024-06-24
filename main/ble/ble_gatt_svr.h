@@ -34,24 +34,10 @@
 
 extern "C" void ble_ans_init();
 
-#define UUID(id) (&id.u)
 
 namespace ble
 {
-
-    ble_uuid128_t color_service_uuid = UUID128("88feb8853fa6c610010abf2eee3b7de3");
-    ble_uuid128_t rgb_characteristic_uuid = UUID128("945683fd41b67f3c69d929fdc6dcef52");
-
-    constexpr ble_gatt_svc_def gatt_services[] = SERVICE_LIST(
-        SERVICE(
-            UUID(color_service_uuid),
-            CHARACTERISTIC(
-                UUID(rgb_characteristic_uuid),
-                my_service::gatt_svc_access,
-                ble::perm::EREAD | ble::perm::EWRITE,
-                &my_service::gatt_svr_chr_val_handle)));
-
-    int gatt_svr_init()
+    int gatt_svr_init(const ble_gatt_svc_def *gatt_services)
     {
         int rc;
 

@@ -102,7 +102,7 @@ namespace ble
         nimble_port_freertos_deinit();
     }
 
-    void init_bluetooth()
+    void init_bluetooth(const ble_gatt_svc_def *gatt_services)
     {
         int rc;
 
@@ -137,7 +137,7 @@ namespace ble
         ble_hs_cfg.sm_our_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
         ble_hs_cfg.sm_their_key_dist |= BLE_SM_PAIR_KEY_DIST_SIGN;
 
-        rc = ble::gatt_svr_init();
+        rc = ble::gatt_svr_init(gatt_services);
         assert(rc == 0);
 
         /* Set the default device name. */
