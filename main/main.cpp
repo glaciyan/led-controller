@@ -24,13 +24,13 @@ constexpr gpio_num_t LED_CONTROLLER_LED_PWR_PIN = GPIO_NUM_19;
 typedef ws2812::Driver<RGB_LED_GPIO_NUM> LEDDriver;
 
 // Bluetooth
-uint16_t color_characteristic_handle;
+uint16_t color_characteristic_attr_handle;
 int color_characteristic_access(uint16_t conn_handle, uint16_t attr_handle, ble_gatt_access_ctxt *ctxt, void *arg)
 {
     switch (ctxt->op)
     {
     case BLE_GATT_ACCESS_OP_READ_CHR:
-        if (attr_handle == color_characteristic_handle)
+        if (attr_handle == color_characteristic_attr_handle)
         {
             // rc = os_mbuf_append(ctxt->om, &gatt_svr_chr_val, sizeof(gatt_svr_chr_val));
             // return rc == 0 ? 0 : BLE_ATT_ERR_INSUFFICIENT_RES;
@@ -38,7 +38,7 @@ int color_characteristic_access(uint16_t conn_handle, uint16_t attr_handle, ble_
         break;
 
     case BLE_GATT_ACCESS_OP_WRITE_CHR:
-        if (attr_handle == color_characteristic_handle)
+        if (attr_handle == color_characteristic_attr_handle)
         {
         //     rc = gatt_svr_write(ctxt->om, sizeof(gatt_svr_chr_val), sizeof(gatt_svr_chr_val),
         //                         &gatt_svr_chr_val, nullptr);
@@ -63,10 +63,10 @@ constexpr ble_gatt_svc_def gatt_services[] = SERVICE_LIST(
             UUID(rgb_characteristic_uuid),
             color_characteristic_access,
             ble::perm::EREAD | ble::perm::EWRITE,
-            &color_characteristic_handle)));
+            &color_characteristic_attr_handle)));
 
 // Main
-extern "C" void app_main()
+extern "C" [[noreturn]] void app_main()
 {
     ESP_LOGI(TAG, "Initializing LED Driver");
     LEDDriver ledDriver{};
