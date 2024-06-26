@@ -6,9 +6,9 @@
 
 namespace nvs
 {
-    const char *TAG = "nvs_init";
+    constexpr const char *TAG = "nvs_init";
 
-    constexpr void init_nvs()
+    void init_nvs()
     {
         ESP_LOGI(TAG, "Initializing NVS");
 

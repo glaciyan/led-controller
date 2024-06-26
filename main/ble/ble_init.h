@@ -29,10 +29,10 @@ namespace ble
     const char *storage_namespace = "ble_device";
     const char *static_address_key = "static_address";
 
-    void bleprph_on_sync(void)
+    void bleprph_on_sync()
     {
-        int rc = 0;
-        esp_err_t err = 0;
+        int rc;
+        esp_err_t err;
 
         nvs_handle_t handle;
         err = nvs_open(storage_namespace, NVS_READWRITE, &handle);
@@ -83,7 +83,8 @@ namespace ble
 
         /* Printing ADDR */
         uint8_t addr_val[6] = {0};
-        rc = ble_hs_id_copy_addr(BLE_ADDR_RANDOM, addr_val, NULL);
+        rc = ble_hs_id_copy_addr(BLE_ADDR_RANDOM, addr_val, nullptr);
+        assert(rc == 0);
 
         MODLOG_DFLT(INFO, "Device Address: ");
         print_addr(addr_val);
@@ -93,7 +94,7 @@ namespace ble
         ext_bleprph_advertise();
     }
 
-    void bleprph_host_task(void *param)
+    void bleprph_host_task([[maybe_unused]] void *param)
     {
         ESP_LOGI(tag, "BLE Host Task Started");
         /* This function will return only when nimble_port_stop() is executed */

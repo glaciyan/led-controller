@@ -11,7 +11,7 @@ namespace ble
     );
 
     // Forward declaration
-    int bleprph_gap_event(struct ble_gap_event *event, void *arg);
+    int bleprph_gap_event(struct ble_gap_event *event, [[maybe_unused]] [[maybe_unused]] void *arg);
 
     /**
      * Logs information about a connection to the console.
@@ -44,9 +44,9 @@ namespace ble
      *     o General discoverable mode.
      *     o Undirected connectable mode.
      */
-    constexpr void ext_bleprph_advertise(void)
+    void ext_bleprph_advertise()
     {
-        ble_gap_ext_adv_params params;
+        ble_gap_ext_adv_params params{};
         os_mbuf *data;
         uint8_t instance = 0;
         int rc;
@@ -75,8 +75,8 @@ namespace ble
         params.itvl_max = BLE_GAP_ADV_FAST_INTERVAL2_MAX;
 
         /* configure instance 0 */
-        rc = ble_gap_ext_adv_configure(instance, &params, NULL,
-                                       bleprph_gap_event, NULL);
+        rc = ble_gap_ext_adv_configure(instance, &params, nullptr,
+                                       bleprph_gap_event, nullptr);
         assert(rc == 0);
 
         /* in this case only scan response is allowed */
@@ -116,9 +116,9 @@ namespace ble
      *                                  of the return code is specific to the
      *                                  particular GAP event being signalled.
      */
-    int bleprph_gap_event(ble_gap_event *event, void *arg)
+    int bleprph_gap_event(ble_gap_event *event, [[maybe_unused]] void *arg)
     {
-        ble_gap_conn_desc desc;
+        ble_gap_conn_desc desc{};
         int rc;
 
         switch (event->type)

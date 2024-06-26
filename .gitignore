@@ -5,3 +5,5 @@ espidf.spdx
 managed_components
 sdkconfig
 sdkconfig.old
+cmake-build-*
+.idea

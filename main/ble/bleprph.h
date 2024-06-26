@@ -20,7 +20,6 @@
 #ifndef H_BLEPRPH_
 #define H_BLEPRPH_
 
-#include <stdbool.h>
 #include "nimble/ble.h"
 #include "modlog/modlog.h"
 #include "esp_peripheral.h"
