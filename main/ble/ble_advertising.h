@@ -1,14 +1,10 @@
 #pragma once
 
 #include "ble_gap_util.h"
+#include "ble_config.h"
 
 namespace ble
 {
-    constexpr auto ext_adv_raw_data = concatenate(
-        tag_data(0x01, std::array{flags::LEGeneralDiscoverable | flags::BR_EDRNotSupported}),
-        tag_data(0x19, Appearance),
-        device_name(DEVICE_NAME)
-    );
 
     // Forward declaration
     int bleprph_gap_event(struct ble_gap_event *event, [[maybe_unused]] [[maybe_unused]] void *arg);
