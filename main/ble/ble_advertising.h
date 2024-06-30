@@ -3,6 +3,8 @@
 #include "ble_gap_util.h"
 #include "ble_config.h"
 
+#include "ble_color_characteristic.h"
+
 namespace ble
 {
 
@@ -198,7 +200,15 @@ namespace ble
                         event->subscribe.cur_notify,
                         event->subscribe.prev_indicate,
                         event->subscribe.cur_indicate);
-            return 0;
+
+                if (event->subscribe.attr_handle == color_characteristic_attr_handle)
+                {
+                    MODLOG_DFLT(INFO, "Subscribed to color notifications conn_handle: %d", event->subscribe.conn_handle);
+                    notify_conn_handle = event->subscribe.conn_handle;
+                    notify_attr_handle = event->subscribe.attr_handle;
+                    notifyReady = true;
+                }
+                return 0;
 
         case BLE_GAP_EVENT_MTU:
             MODLOG_DFLT(INFO, "mtu update event; conn_handle=%d cid=%d mtu=%d\n",

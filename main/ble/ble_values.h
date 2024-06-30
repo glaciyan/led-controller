@@ -10,6 +10,8 @@ namespace ble
         constexpr ble_gatt_chr_flags WRITE = (BLE_GATT_CHR_F_WRITE);
         constexpr ble_gatt_chr_flags EREAD = (READ | BLE_GATT_CHR_F_READ_ENC);
         constexpr ble_gatt_chr_flags EWRITE = (WRITE | BLE_GATT_CHR_F_WRITE_ENC);
+        constexpr ble_gatt_chr_flags NOTIFY = BLE_GATT_CHR_F_NOTIFY;
+        constexpr ble_gatt_chr_flags INDICATE = BLE_GATT_CHR_F_INDICATE;
     }
 
     namespace flags

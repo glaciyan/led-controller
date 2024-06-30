@@ -72,6 +72,11 @@ extern "C" [[noreturn]] void app_main()
 
         ledDriver.transmitData(data.data(), sizeof(pixel) * data.size());
         ledDriver.joinAll();
+        if (notifyReady && notify_attr_handle == color_characteristic_attr_handle)
+        {
+            gatt_color += 1;
+            ble_gatts_notify(notify_conn_handle, notify_attr_handle);
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }

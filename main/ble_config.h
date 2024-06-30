@@ -23,7 +23,7 @@ constexpr ble_gatt_svc_def gatt_services[] = SERVICE_LIST(
                 CHARACTERISTIC(
                         UUID(rgb_characteristic_uuid),
                         color_characteristic_access,
-                        ble::perm::EREAD | ble::perm::EWRITE,
+                        ble::perm::EREAD | ble::perm::EWRITE | ble::perm::NOTIFY,
                         &color_characteristic_attr_handle
                 )
         )
